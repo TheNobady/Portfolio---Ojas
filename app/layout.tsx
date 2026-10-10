@@ -13,6 +13,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ojas-sharma-dev.vercel.app"),
   title: "Ojas Sharma — Backend Engineer",
   description:
     "Backend engineer and CS student at SRM IST. Java, Spring Boot, real-time systems and databases.",
