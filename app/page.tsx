@@ -76,8 +76,12 @@ export default function Home() {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 font-mono text-xs text-dim sm:flex-row sm:justify-between sm:px-6">
           <span>© 2026 {profile.name} · built with Next.js</span>
-          <span>
-            press <kbd className="text-muted">/</kbd> to navigate
+          <span className="flex gap-4">
+            <span>
+              press <kbd className="text-muted">/</kbd> to navigate
+            </span>
+            <a href="/llms.txt" className="text-muted hover:text-accent">llms.txt</a>
+            <a href="/LLM.md" className="text-muted hover:text-accent">LLM.md</a>
           </span>
         </div>
       </footer>
