@@ -8,7 +8,7 @@ function Links({ p }: { p: Project }) {
       {p.demo ? (
         <a href={p.demo} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-accent hover:underline">
           <span className="pulse size-1.5 rounded-full bg-accent" />
-          live ↗
+          {p.demoLabel ?? "live"} ↗
         </a>
       ) : (
         p.runs && (
@@ -18,9 +18,18 @@ function Links({ p }: { p: Project }) {
           </span>
         )
       )}
-      <a href={p.source} target="_blank" rel="noreferrer" className="text-muted hover:text-fg">
-        source ↗
-      </a>
+      {p.links?.map((l) => (
+        <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className="text-muted hover:text-fg">
+          {l.label} ↗
+        </a>
+      ))}
+      {p.source ? (
+        <a href={p.source} target="_blank" rel="noreferrer" className="text-muted hover:text-fg">
+          source ↗
+        </a>
+      ) : (
+        <span className="text-dim">private repo</span>
+      )}
     </div>
   );
 }
@@ -93,7 +102,7 @@ function Featured({ p, i }: { p: Project; i: number }) {
 
           {p.metric && (
             <div className="mt-7 flex items-baseline gap-4 border-l-2 border-accent pl-4">
-              <span className="font-mono text-2xl font-bold text-accent">{p.metric.value}</span>
+              <span className="font-mono text-2xl font-bold whitespace-nowrap text-accent">{p.metric.value}</span>
               <span className="text-sm text-muted">{p.metric.label}</span>
             </div>
           )}

@@ -29,7 +29,7 @@ const endpoints: Endpoint[] = [
         school: "SRM Institute of Science and Technology",
         years: "2024–2028",
       },
-      roles: ["Tech Lead @ ISTE", "Tech Lead @ Rangeen Pixels"],
+      roles: ["Founding Engineer @ BroPay", "Tech Lead @ ISTE", "Tech Lead @ Rangeen Pixels"],
       core,
       openTo: profile.openTo,
       motto: profile.philosophy.join(" "),

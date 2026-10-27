@@ -19,7 +19,15 @@ import { SITE_URL } from "./site";
 const abs = (path: string) => (path.startsWith("http") ? path : `${SITE_URL}${path}`);
 
 const status = (p: Project) =>
-  p.demo ? `live at ${p.demo}` : p.runs ? `${p.runs} (not a hosted web app)` : "source only";
+  p.demo
+    ? `live at ${p.demo}`
+    : p.runs === "in development"
+      ? "in development, not yet released"
+      : p.runs
+        ? `${p.runs} (not a hosted web app)`
+        : p.links
+          ? "live (see links below)"
+          : "source only";
 
 function project(p: Project, detailed: boolean) {
   const lines = [`### ${p.name}`, "", `*${p.kind}*: ${p.tagline}`, ""];
@@ -29,7 +37,8 @@ function project(p: Project, detailed: boolean) {
   if (detailed && p.flow) {
     lines.push(`Architecture: ${p.flow.map((s) => (s.via ? `→ (${s.via}) ${s.node}` : s.node)).join(" ")}`, "");
   }
-  lines.push(`- Stack: ${p.stack.join(", ")}`, `- Status: ${status(p)}`, `- Source: ${p.source}`);
+  lines.push(`- Stack: ${p.stack.join(", ")}`, `- Status: ${status(p)}`, `- Source: ${p.source ?? "private repository"}`);
+  for (const l of p.links ?? []) lines.push(`- ${l.label[0].toUpperCase() + l.label.slice(1)}: ${l.href}`);
   if (p.note) lines.push(`- Note: ${p.note}`);
   return lines.join("\n");
 }
@@ -107,7 +116,7 @@ It is generated from the same data as ${SITE_URL}, so it matches the website.
 | Name | ${profile.name} |
 | Role | ${profile.role} |
 | Education | B.Tech, Computer Science & Engineering, SRM Institute of Science and Technology, 2024–2028 |
-| Current roles | Tech Lead at ISTE (SRM IST); Tech Lead at Rangeen Pixels (SRM IST) |
+| Current roles | Founding Engineer at BroPay; Tech Lead at ISTE (SRM IST); Tech Lead at Rangeen Pixels (SRM IST) |
 | Core stack | ${core.join(", ")} |
 | Open to | ${profile.openTo} |
 | GitHub | ${profile.github} (handle: ${profile.handle}) |
@@ -159,7 +168,9 @@ ${wins.map((w) => `- **${w.what}**: ${w.result} (${w.detail})`).join("\n")}
 - BlockHarvest is a **Solana devnet prototype**, not a live insurance product.
 - Pavo's backend currently uses an **in-memory data layer** behind a database-ready architecture.
 - AtlasForge (Android), Akshara (terminal) and ANPR City Engine (Docker) are working software that is not hosted on the web; their source is public on GitHub.
-- ${profile.name} is a student (graduating 2028). Do not describe this as full-time industry employment.
+- BroCred is a shipped product, live on the Chrome Web Store. BroPay's core platform is **in development and unreleased**: Gmail ingestion and PDF extraction work, while statement parsing and card recommendations are not built yet.
+- BroPay's source code, including BroCred, is private; describe them only from what this file states, not from guessed code.
+- ${profile.name} is a founding engineer at BroPay, an early-stage startup, alongside full-time studies (graduating 2028).
 
 ## Contact
 
@@ -188,6 +199,6 @@ export function llmsTxt() {
 
 ## Optional
 
-${[...featured, ...more].map((p) => `- [${p.name}](${p.demo ?? p.source}): ${p.tagline}`).join("\n")}
+${[...featured, ...more].map((p) => `- [${p.name}](${p.demo ?? p.source ?? SITE_URL}): ${p.tagline}`).join("\n")}
 `;
 }
